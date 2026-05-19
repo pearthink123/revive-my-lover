@@ -178,7 +178,7 @@ poisson-love/
 | Module | Model | Application | Status |
 |--------|-------|-------------|--------|
 | `poisson.py` | Poisson process | Random engagement timing | ✅ Done |
-| `control.py` | PID controller | Adaptive frequency (user feedback → adjust rate) | 🔜 Next |
+|| `control.py` | PID controller | Adaptive frequency (user feedback → adjust rate) | ✅ Done |
 | `info_gain.py` | Information theory | "Is this interaction worth it?" decision | 📋 Planned |
 | `optimal_stop.py` | Optimal stopping | Best moment to intervene | 📋 Planned |
 | `queueing.py` | Queueing theory | User's mental bandwidth management | 📋 Planned |
