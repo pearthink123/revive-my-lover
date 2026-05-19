@@ -65,29 +65,28 @@ def transform_score(score: float, pref: UserPreference) -> float:
     """
     Transform engagement score based on user preference.
 
-    Different styles interpret engagement differently:
-    - PROACTIVE: Always wants more contact → feed low score to PID
-    - RESPECTFUL: Match user's energy → invert (high engagement = feed high)
-    - BALANCED: Use raw score → PID only reacts to sweet zone violations
+    Interpretation B: match user's energy
+    - High engagement → feed LOW to PID → PID increases λ (send more)
+    - Low engagement → feed HIGH to PID → PID decreases λ (send less)
     """
     low, high = pref.sweet_zone
     setpoint = (low + high) / 2
 
     if pref.style == Style.PROACTIVE:
         # Always biased toward "need more contact"
-        # Even high engagement → still want to reach out
         return setpoint - 0.15  # Constant pull toward increasing lambda
 
     elif pref.style == Style.RESPECTFUL:
-        # Direct mapping: engaged = good = can send more
-        # Disengaged = back off
-        return score  # Natural interpretation
+        # Invert: high engagement → PID should increase λ
+        # score=0.85 → pid_input=0.15 → error=0.35 → PID increases
+        # score=0.15 → pid_input=0.85 → error=-0.35 → PID decreases
+        return setpoint + (setpoint - score)
 
     else:  # BALANCED
-        # Only care about sweet zone violations
         if low <= score <= high:
-            return setpoint  # Stay put
-        return score  # Let PID react to deviation
+            return setpoint  # Sweet zone → stay put
+        # Invert deviations
+        return setpoint + (setpoint - score)
 
 
 def run_style_test(style_name: str, pref: UserPreference, seed: int = 42):

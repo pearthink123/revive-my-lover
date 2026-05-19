@@ -21,9 +21,9 @@ from typing import Optional
 from .core.engine import PoissonEngine
 from .core.config import Config
 from .core.models import Action, TickResult
-from .control import PIDController, Signal, CombinedSignal, UserPreference, Style, Response
+from .control import Signal, CombinedSignal, UserPreference, Style, Response
 from .info_gain import InformationGain, SilenceDuration, ConversationFlow, MessageNovelty
-from .optimal_stop import OptimalStop, ThresholdRule
+from .bayesian import StateEstimator, State
 
 
 @dataclass
@@ -31,10 +31,12 @@ class LoveResult:
     """Result of a PoissonLove tick."""
 
     should_send: bool           # Final decision
-    stage: str                  # Which stage decided ("poisson", "infogain", "pid")
+    stage: str                  # Which stage decided ("poisson", "infogain", "bayesian")
     poisson_hit: bool           # Did Poisson dice hit?
     infogain_passed: bool       # Did InfoGain approve?
-    engagement: float           # User engagement score (0-1)
+    user_state: str             # Inferred user state
+    state_confidence: float     # Confidence in state inference
+    send_utility: float         # Bayesian send utility (0-1)
     lambda_rate: float          # Current lambda rate
     probability: float          # Current Poisson probability
     info_gain: float            # Information gain value
@@ -75,7 +77,6 @@ class PoissonLove:
         config: Optional[Config] = None,
         preference: Optional[UserPreference] = None,
         infogain_threshold: float = 0.20,
-        engagement_signals: Optional[list[tuple[Signal, float]]] = None,
         seed: Optional[int] = None,
     ):
         # Config
@@ -98,29 +99,18 @@ class PoissonLove:
             },
         })
 
-        # User preference
-        self.preference = preference or UserPreference(
-            style=Style.RESPECTFUL,
-            on_engaged=Response.MORE,
-            on_disengaged=Response.LESS,
-            sweet_zone=(0.35, 0.65),
-        )
-
         # Modules
         self._engine = PoissonEngine(self.config, seed=seed)
-        self._pid = PIDController.from_preference(self.preference)
+        self._estimator = StateEstimator()
         self._infogain = InformationGain(threshold=infogain_threshold)
-
-        # Engagement signals
-        self._signals = engagement_signals or self._default_signals()
-        self._combined_signal = CombinedSignal(*self._signals)
 
         # State
         self._base_lambda = self.config.engagement.lambda_rate
         self._last_user_reply: Optional[datetime] = None
         self._my_unanswered: int = 0
         self._recent_messages: list[str] = []
-        self._engagement_buffer: list[float] = []
+        self._last_reply_speed: float = 0.5
+        self._last_reply_length: float = 0.5
 
     def tick(self, now: Optional[datetime] = None) -> LoveResult:
         """
@@ -134,6 +124,8 @@ class PoissonLove:
         if now is None:
             now = datetime.now()
 
+        hour = now.hour + now.minute / 60.0
+
         # ── Stage 1: Poisson Dice ──
         poisson_result = self._engine.tick(now)
 
@@ -143,7 +135,9 @@ class PoissonLove:
                 stage="poisson",
                 poisson_hit=False,
                 infogain_passed=False,
-                engagement=0,
+                user_state="unknown",
+                state_confidence=0,
+                send_utility=0,
                 lambda_rate=self._base_lambda,
                 probability=poisson_result.probability,
                 info_gain=0,
@@ -152,16 +146,14 @@ class PoissonLove:
             )
 
         # ── Stage 2: Information Gain ──
-        silence_src = SilenceDuration(
-            last_reply_time=self._last_user_reply,
-            now=now,
-        )
+        silence_hours = 0.0
+        if self._last_user_reply:
+            silence_hours = (now - self._last_user_reply).total_seconds() / 3600
+
+        silence_src = SilenceDuration(last_reply_time=self._last_user_reply, now=now)
         flow_src = ConversationFlow(
             my_unanswered_messages=self._my_unanswered,
-            user_replied_in_last_hour=(
-                self._last_user_reply is not None and
-                (now - self._last_user_reply).total_seconds() < 3600
-            ),
+            user_replied_in_last_hour=(silence_hours < 1.0),
         )
         novelty_src = MessageNovelty(
             recent_messages=self._recent_messages[-5:],
@@ -178,7 +170,9 @@ class PoissonLove:
                 stage="infogain",
                 poisson_hit=True,
                 infogain_passed=False,
-                engagement=0,
+                user_state="unknown",
+                state_confidence=0,
+                send_utility=0,
                 lambda_rate=self._base_lambda,
                 probability=poisson_result.probability,
                 info_gain=ig_result.gain,
@@ -186,58 +180,83 @@ class PoissonLove:
                 reason=f"InfoGain: {ig_result.reason}",
             )
 
-        # ── Stage 3: Compute Engagement ──
-        engagement = self._combined_signal.measure()
+        # ── Stage 3: Bayesian State Estimation ──
+        self._estimator.update(
+            reply_speed=self._last_reply_speed,
+            reply_length=self._last_reply_length,
+            hour=hour,
+            silence_hours=silence_hours,
+        )
 
-        # Transform based on preference
-        low, high = self.preference.sweet_zone
-        setpoint = (low + high) / 2
-        if engagement < low:
-            pid_input = setpoint - 0.2
-        elif engagement > high:
-            pid_input = setpoint + 0.2
-        else:
-            pid_input = setpoint
+        best_state, state_probs = self._estimator.most_likely()
+        send_utility = self._estimator.send_utility()
+        state_confidence = state_probs[best_state]
 
-        # ── Stage 4: PID Update ──
-        adj = self._pid.update(pid_input)
-        self._base_lambda = max(0.05, min(0.4, self._base_lambda + adj))
-        self.config.engagement.lambda_rate = self._base_lambda
+        should_send, decision_reason = self._estimator.should_send(threshold=0.45)
 
-        # Build prompt
-        prompt = self._build_prompt(now, engagement, poisson_result.probability)
+        if not should_send:
+            return LoveResult(
+                should_send=False,
+                stage="bayesian",
+                poisson_hit=True,
+                infogain_passed=True,
+                user_state=best_state.value,
+                state_confidence=state_confidence,
+                send_utility=send_utility,
+                lambda_rate=self._base_lambda,
+                probability=poisson_result.probability,
+                info_gain=ig_result.gain,
+                prompt="",
+                reason=f"Bayesian: {decision_reason}",
+            )
+
+        # ── All stages passed → Send! ──
+        prompt = self._build_prompt(now, best_state.value, poisson_result.probability)
 
         return LoveResult(
             should_send=True,
             stage="full",
             poisson_hit=True,
             infogain_passed=True,
-            engagement=engagement,
+            user_state=best_state.value,
+            state_confidence=state_confidence,
+            send_utility=send_utility,
             lambda_rate=self._base_lambda,
             probability=poisson_result.probability,
             info_gain=ig_result.gain,
             prompt=prompt,
-            reason=f"Send (engagement={engagement:.2f}, λ={self._base_lambda:.3f})",
+            reason=f"Send (state={best_state.value}, utility={send_utility:.2f})",
         )
 
-    def record_engagement(self, score: float) -> None:
+    def record_reply(
+        self,
+        message: str = "",
+        reply_speed: float = 0.5,
+        reply_length: float = 0.5,
+    ) -> None:
         """
-        Record user engagement after sending a message.
+        Record that the user replied.
 
         Args:
-            score: Engagement score (0-1). Use reply speed, quality, etc.
+            message: The reply text (for novelty tracking).
+            reply_speed: How fast they replied (0-1).
+            reply_length: How long the reply was (0-1).
         """
-        self._engagement_buffer.append(score)
-
-        # Update signals
-        if len(self._signals) >= 1:
-            self._signals[0][0].value = score  # type: ignore
-
-    def record_reply(self, message: str = "") -> None:
-        """Record that the user replied."""
         self._last_user_reply = datetime.now()
         self._my_unanswered = 0
+        self._last_reply_speed = reply_speed
+        self._last_reply_length = reply_length
         self._infogain.on_receive()
+
+        # Update Bayesian estimator with the reply observation
+        hour = datetime.now().hour + datetime.now().minute / 60.0
+        self._estimator.update(
+            reply_speed=reply_speed,
+            reply_length=reply_length,
+            hour=hour,
+            silence_hours=0.0,
+        )
+
         if message:
             self._recent_messages.append(message)
 
@@ -248,8 +267,8 @@ class PoissonLove:
         if message:
             self._recent_messages.append(message)
 
-    def _build_prompt(self, now: datetime, engagement: float, probability: float) -> str:
-        """Build the message prompt."""
+    def _build_prompt(self, now: datetime, user_state: str, probability: float) -> str:
+        """Build the message prompt based on inferred user state."""
         hour = now.hour
         if 6 <= hour < 10:
             time_ctx = "morning"
@@ -265,18 +284,6 @@ class PoissonLove:
         return (
             f"[Poisson Longing] "
             f"Time: {now.strftime('%H:%M')} ({time_ctx}), "
-            f"Engagement: {engagement:.0%}, "
+            f"User state: {user_state}, "
             f"Longing: {probability:.0%}"
         )
-
-    def _default_signals(self) -> list[tuple[Signal, float]]:
-        """Default engagement signal sources."""
-
-        class DefaultSignal(Signal):
-            def __init__(self):
-                self.value = 0.5
-
-            def measure(self) -> float:
-                return self.value
-
-        return [(DefaultSignal(), 1.0)]

@@ -169,13 +169,13 @@ def run():
         spd.value = resp["speed"]; qlt.value = resp["quality"]; rct.value = resp["reaction"]
         raw_score = combined_signal.measure()
 
-        # Transform score based on preference
+        # Transform score based on preference (B: match user's energy)
         low, high = pref.sweet_zone
         setpoint = (low + high) / 2
         if raw_score < low:
-            pid_input = setpoint - 0.2  # Trigger increase
+            pid_input = setpoint + 0.2  # User quiet → decrease λ
         elif raw_score > high:
-            pid_input = setpoint + 0.2  # Trigger decrease
+            pid_input = setpoint - 0.2  # User engaged → increase λ
         else:
             pid_input = setpoint  # Sweet zone
 
