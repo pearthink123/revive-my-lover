@@ -41,6 +41,7 @@ class PIDController:
     output_min: Optional[float] = None
     output_max: Optional[float] = None
     integral_limit: Optional[float] = None
+    dead_band: Optional[float] = None  # If set, |error| < dead_band → no adjustment
 
     # Internal state (auto-managed)
     _integral: float = field(default=0.0, repr=False)
@@ -58,6 +59,11 @@ class PIDController:
             Adjustment value. Positive = move toward setpoint.
         """
         error = self.setpoint - current
+
+        # Dead band: if error is small enough, don't adjust
+        if self.dead_band is not None and abs(error) < self.dead_band:
+            self._prev_error = error
+            return 0.0
 
         # Proportional
         p = self.kp * error

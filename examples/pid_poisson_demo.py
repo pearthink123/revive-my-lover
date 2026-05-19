@@ -148,8 +148,11 @@ def run_simulation(days: int = 3):
     engine = PoissonEngine(config, seed=42)
     user = SimUser(seed=123)
 
-    # PID: target engagement = 0.5 (balanced)
-    pid = PIDController(kp=0.15, ki=0.03, kd=0.08, setpoint=0.5)
+    # PID: target engagement = 0.5, sweet zone 0.35~0.65
+    # Below 0.35 → increase lambda (user needs more attention)
+    # Above 0.65 → decrease lambda (give user space)
+    # 0.35~0.65 → no adjustment (comfortable distance)
+    pid = PIDController(kp=0.15, ki=0.03, kd=0.08, setpoint=0.5, dead_band=0.15)
 
     # Signals (updated after each send)
     speed_signal = LastReplySpeedSignal()
@@ -231,12 +234,13 @@ def run_simulation(days: int = 3):
     print()
     print("What happened:")
     print("  - User engagement fluctuated (mood cycles)")
-    print("  - PID detected high engagement → reduced λ (send less)")
-    print("  - PID detected low engagement → increased λ (send more)")
-    print("  - System found equilibrium around target engagement = 0.5")
+    print("  - Score in sweet zone (0.35~0.65) → PID does nothing (comfortable)")
+    print("  - Score too high (>0.65) → PID reduces λ (give user space)")
+    print("  - Score too low (<0.35) → PID increases λ (reach out more)")
+    print("  - System self-balances around the sweet zone")
     print()
     print("Without PID: λ stays fixed at 0.15 regardless of user response.")
-    print("With PID:    λ adapts — sends more when user wants it, less when they don't.")
+    print("With PID:    λ adapts — respects the sweet spot between too much and too little.")
 
 
 if __name__ == "__main__":
