@@ -1,12 +1,11 @@
 """
 revive-my-lover: Math models that make AI engagement feel human.
 
-Five models, one pipeline:
+Four models, one pipeline:
 1. Poisson process — randomized timing (like "thinking about you")
 2. Information gain — is this interaction worth it?
 3. Bayesian inference — what's the user doing?
 4. Optimal stopping — best moment to intervene
-5. SDE dynamics — how engagement evolves over time
 
 Quick start:
     from revive_my_lover import PoissonLove
@@ -26,9 +25,8 @@ from .control import Signal, CombinedSignal
 from .info_gain import InformationGain, SilenceDuration, ConversationFlow
 from .optimal_stop import OptimalStop, ThresholdRule
 from .bayesian import StateEstimator, State
-from .sde import OrnsteinUhlenbeck, GeometricBrownian, Heston, EngagementDynamics
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 __all__ = [
     # Unified API
     "PoissonLove", "LoveResult",
@@ -42,6 +40,4 @@ __all__ = [
     "StateEstimator", "State",
     # Control (kept for standalone use)
     "Signal", "CombinedSignal",
-    # SDE
-    "OrnsteinUhlenbeck", "GeometricBrownian", "Heston", "EngagementDynamics",
 ]
