@@ -199,6 +199,51 @@ PYTHONPATH=src python examples/quickstart.py              # Basic simulation
 PYTHONPATH=src python examples/bayesian_demo.py           # State inference
 PYTHONPATH=src python examples/bayesian_learning_demo.py  # Online learning
 PYTHONPATH=src python examples/info_gain_demo.py          # Information gain
+PYTHONPATH=src python examples/integration_example.py     # Smart notifier
+```
+
+## Integration
+
+### Simple Integration (Any Bot)
+
+```python
+from revive_my_lover import PoissonLove
+
+love = PoissonLove()
+
+# 每隔一段时间检查
+result = love.tick()
+if result.should_send:
+    send_message("想你了~")
+    love.record_send()
+
+# 收到回复后
+love.record_reply(reply_speed=0.8, reply_length=0.6)
+```
+
+### Telegram Bot
+
+```bash
+# 安装依赖
+pip install python-telegram-bot
+
+# 运行
+python examples/telegram_bot.py --token YOUR_TOKEN --chat-id YOUR_CHAT_ID
+```
+
+### Discord / Slack / 微信
+
+同样的模式，只需替换发送函数：
+
+```python
+# Discord
+await channel.send(message)
+
+# Slack
+slack_client.chat_postMessage(channel=channel_id, text=message)
+
+# 微信（itchat）
+itchat.send(message, toUserName=friend_name)
 ```
 
 ---
