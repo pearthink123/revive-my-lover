@@ -1,5 +1,5 @@
 """
-Adapters connect poisson-love to different AI platforms.
+Adapters connect revive-my-lover to different AI platforms.
 
 The engine only computes math. Adapters handle:
 - Calling the actual AI API

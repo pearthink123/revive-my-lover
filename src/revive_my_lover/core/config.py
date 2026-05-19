@@ -1,4 +1,4 @@
-"""Configuration loader for poisson-love."""
+"""Configuration loader for revive-my-lover."""
 
 from __future__ import annotations
 import yaml
@@ -35,7 +35,7 @@ class PersonaConfig:
 
 @dataclass
 class Config:
-    """Full poisson-love configuration."""
+    """Full revive-my-lover configuration."""
 
     engagement: EngagementConfig = field(default_factory=EngagementConfig)
     persona: PersonaConfig = field(default_factory=PersonaConfig)

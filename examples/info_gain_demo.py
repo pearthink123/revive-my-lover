@@ -8,7 +8,7 @@ Run: PYTHONPATH=src python examples/info_gain_demo.py
 
 from datetime import datetime, timedelta
 
-from poisson_love.info_gain import (
+from revive_my_lover.info_gain import (
     InformationGain,
     SilenceDuration,
     MessageNovelty,

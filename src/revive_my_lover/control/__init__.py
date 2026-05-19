@@ -1,11 +1,11 @@
 """
-poisson_love.control — PID controller + pluggable signal framework.
+revive_my_lover.control — PID controller + pluggable signal framework.
 
 This module is independent of the Poisson engine.
 Use it for any adaptive control scenario.
 
 Example:
-    from poisson_love.control import PIDController, Signal, CombinedSignal, UserPreference
+    from revive_my_lover.control import PIDController, Signal, CombinedSignal, UserPreference
 
     # Option 1: Manual PID setup
     pid = PIDController(kp=0.1, ki=0.01, kd=0.05, setpoint=0.5)

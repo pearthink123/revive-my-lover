@@ -1,11 +1,11 @@
 """
-poisson_love.bayesian — Infer user's hidden state, then decide.
+revive_my_lover.bayesian — Infer user's hidden state, then decide.
 
 Replaces PID with state-based reasoning:
   "What is the user probably doing?" → "Should I send?"
 
 Example:
-    from poisson_love.bayesian import StateEstimator
+    from revive_my_lover.bayesian import StateEstimator
 
     est = StateEstimator()
     est.update(reply_speed=0.8, hour=14, silence=0.5)

@@ -14,10 +14,10 @@ import math
 import random
 from datetime import datetime, timedelta
 
-from poisson_love.core.engine import PoissonEngine
-from poisson_love.core.config import Config
-from poisson_love.core.models import Action
-from poisson_love.control import PIDController, Signal, CombinedSignal
+from revive_my_lover.core.engine import PoissonEngine
+from revive_my_lover.core.config import Config
+from revive_my_lover.core.models import Action
+from revive_my_lover.control import PIDController, Signal, CombinedSignal
 
 
 # ─── Simulated user behavior ───

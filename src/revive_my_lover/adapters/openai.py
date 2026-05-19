@@ -1,4 +1,4 @@
-"""OpenAI adapter for poisson-love."""
+"""OpenAI adapter for revive-my-lover."""
 
 from __future__ import annotations
 from typing import Optional
@@ -8,7 +8,7 @@ from .base import Adapter
 
 
 class OpenAIAdapter(Adapter):
-    """Connect poisson-love to OpenAI's API."""
+    """Connect revive-my-lover to OpenAI's API."""
 
     def __init__(self, config: Config, api_key: str = None, model: str = "gpt-4o",
                  base_url: str = None):

@@ -12,7 +12,7 @@ Three strategies:
 3. Custom: User-defined stopping rule
 
 Usage:
-    from poisson_love.optimal_stop import OptimalStop, ThresholdRule
+    from revive_my_lover.optimal_stop import OptimalStop, ThresholdRule
 
     stop = OptimalStop(rule=ThresholdRule(horizon=10, value_range=(0, 1)))
     for t in range(10):

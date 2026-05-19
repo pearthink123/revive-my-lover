@@ -4,7 +4,7 @@ Quick Start — 5 lines to use PoissonLove (Bayesian version).
 Run: PYTHONPATH=src python examples/quickstart_unified.py
 """
 
-from poisson_love import PoissonLove
+from revive_my_lover import PoissonLove
 
 # Create engine — no complex config needed
 love = PoissonLove()

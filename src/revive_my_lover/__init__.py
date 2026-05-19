@@ -1,5 +1,5 @@
 """
-poisson-love: Math models that make AI engagement feel human.
+revive-my-lover: Math models that make AI engagement feel human.
 
 Four models, one pipeline:
 1. Poisson process — randomized timing (like "thinking about you")
@@ -8,7 +8,7 @@ Four models, one pipeline:
 4. Optimal stopping — best moment to intervene
 
 Quick start:
-    from poisson_love import PoissonLove, UserPreference, Style
+    from revive_my_lover import PoissonLove, UserPreference, Style
 
     love = PoissonLove(preference=UserPreference(style=Style.RESPECTFUL))
     result = love.tick()
@@ -26,7 +26,7 @@ from .info_gain import InformationGain, SilenceDuration, ConversationFlow
 from .optimal_stop import OptimalStop, ThresholdRule
 from .bayesian import StateEstimator, State
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __all__ = [
     # Unified API
     "PoissonLove", "LoveResult",

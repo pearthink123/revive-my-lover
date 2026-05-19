@@ -4,7 +4,7 @@ PoissonLove — unified API.
 One class, four math models, one line to use.
 
 Usage:
-    from poisson_love import PoissonLove, UserPreference, Style
+    from revive_my_lover import PoissonLove, UserPreference, Style
 
     love = PoissonLove(preference=UserPreference(style=Style.RESPECTFUL))
     result = love.tick()

@@ -1,4 +1,4 @@
-"""Anthropic (Claude) adapter for poisson-love."""
+"""Anthropic (Claude) adapter for revive-my-lover."""
 
 from __future__ import annotations
 from typing import Optional
@@ -8,7 +8,7 @@ from .base import Adapter
 
 
 class AnthropicAdapter(Adapter):
-    """Connect poisson-love to Anthropic's Claude API."""
+    """Connect revive-my-lover to Anthropic's Claude API."""
 
     def __init__(self, config: Config, api_key: str = None, model: str = "claude-sonnet-4-20250514"):
         super().__init__(config)

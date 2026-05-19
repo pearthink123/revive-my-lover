@@ -32,11 +32,11 @@ Four math models working together:
 ## Quick Start
 
 ```bash
-pip install poisson-love
+pip install revive-my-lover
 ```
 
 ```python
-from poisson_love import PoissonLove
+from revive_my_lover import PoissonLove
 
 love = PoissonLove()
 
@@ -72,19 +72,19 @@ No more "engaged → send more". Now it's: "user is probably busy → don't both
 
 ```python
 # OpenAI / GPT
-from poisson_love.adapters import OpenAIAdapter
+from revive_my_lover.adapters import OpenAIAdapter
 adapter = OpenAIAdapter(config, api_key="sk-...")
 
 # Anthropic / Claude
-from poisson_love.adapters import AnthropicAdapter
+from revive_my_lover.adapters import AnthropicAdapter
 adapter = AnthropicAdapter(config, api_key="sk-ant-...")
 
 # Ollama / local models
-from poisson_love.adapters import GenericAdapter
+from revive_my_lover.adapters import GenericAdapter
 adapter = GenericAdapter(config, api_url="http://localhost:11434/v1/chat/completions")
 
 # Run
-from poisson_love.runner import Runner
+from revive_my_lover.runner import Runner
 runner = Runner(engine, adapter)
 runner.run()
 ```
@@ -94,7 +94,7 @@ runner.run()
 ## Architecture
 
 ```
-poisson-love/
+revive-my-lover/
 ├── love.py              # Unified API (start here)
 ├── core/
 │   ├── engine.py        # Poisson dice + probability dynamics
@@ -173,8 +173,8 @@ persona:
 ## Demos
 
 ```bash
-git clone https://github.com/pearthink123/poisson-love
-cd poisson-love
+git clone https://github.com/pearthink123/revive-my-lover
+cd revive-my-lover
 pip install -e .
 
 PYTHONPATH=src python examples/quickstart_unified.py    # 5-line quickstart

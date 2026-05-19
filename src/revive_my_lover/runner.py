@@ -1,5 +1,5 @@
 """
-Runner — the standalone scheduler that drives poisson-love.
+Runner — the standalone scheduler that drives revive-my-lover.
 
 Can run as:
   - A simple loop (blocking)
@@ -20,7 +20,7 @@ from .core.config import Config
 from .core.models import TickResult, Action
 from .adapters.base import Adapter
 
-logger = logging.getLogger("poisson-love")
+logger = logging.getLogger("revive-my-lover")
 
 
 class Runner:

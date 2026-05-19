@@ -1,4 +1,4 @@
-"""Core data structures for poisson-love."""
+"""Core data structures for revive-my-lover."""
 
 from __future__ import annotations
 from dataclasses import dataclass, field

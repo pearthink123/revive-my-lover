@@ -1,5 +1,5 @@
 """
-Quick Start — 5 lines to run poisson-love.
+Quick Start — 5 lines to run revive-my-lover.
 
 Usage:
     python quickstart.py                    # Simulation mode (48h)
@@ -13,8 +13,8 @@ from pathlib import Path
 # Add src to path for local development
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from poisson_love import PoissonEngine, Config
-from poisson_love.runner import Runner
+from revive_my_lover import PoissonEngine, Config
+from revive_my_lover.runner import Runner
 
 
 def main():

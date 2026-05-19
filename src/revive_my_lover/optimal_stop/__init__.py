@@ -1,10 +1,10 @@
 """
-poisson_love.optimal_stop — Best moment to intervene.
+revive_my_lover.optimal_stop — Best moment to intervene.
 
 Uses optimal stopping theory to decide when to act.
 
 Example:
-    from poisson_love.optimal_stop import OptimalStop, ThresholdRule
+    from revive_my_lover.optimal_stop import OptimalStop, ThresholdRule
 
     stop = OptimalStop(rule=ThresholdRule(horizon=8, value_range=(0, 1)))
     for t in range(8):
