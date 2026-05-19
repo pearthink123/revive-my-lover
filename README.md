@@ -25,8 +25,7 @@ Four math models working together:
 |-------|-------|----------|--------|
 | 🎲 **Timing** | Poisson process | When to consider? | Randomized like real "thinking of you" |
 | 📊 **Value** | Information theory | Is this worth it? | Skip if you already know user's state |
-| 🎯 **Adapt** | PID controller | How often? | Adjust based on user's response |
-| ⏱️ **Moment** | Optimal stopping | When to act? | Wait for the best signal |
+| 🧠 **State** | Bayesian inference | What's user doing? | Infer hidden state → decide accordingly |
 
 ---
 
@@ -37,14 +36,9 @@ pip install poisson-love
 ```
 
 ```python
-from poisson_love import PoissonLove, UserPreference, Style
+from poisson_love import PoissonLove
 
-love = PoissonLove(
-    preference=UserPreference(
-        style=Style.RESPECTFUL,  # Match user's energy
-        sweet_zone=(0.35, 0.65), # Comfortable engagement range
-    ),
-)
+love = PoissonLove()
 
 result = love.tick()
 if result.should_send:
@@ -52,32 +46,25 @@ if result.should_send:
     love.record_send()
 
 # After user responds
-love.record_engagement(0.7)  # Reply speed/quality score
-love.record_reply()
+love.record_reply(reply_speed=0.8, reply_length=0.6)
 ```
 
 ---
 
-## User Preferences
+## How It Decides
 
-Choose how the AI should behave:
+The engine infers the user's **hidden state** from observations:
 
-```python
-pref = UserPreference(
-    style=Style.RESPECTFUL,     # proactive / respectful / balanced
-    on_engaged=Response.MORE,   # User wants to chat → send more
-    on_disengaged=Response.LESS, # User is busy → back off
-    sweet_zone=(0.35, 0.65),    # Comfortable range (don't adjust inside)
-    max_daily=8,                # Max messages per day
-    quiet_hours=("00:00", "08:00"), # No messages at night
-)
-```
+| Inferred State | Utility | Decision |
+|---------------|---------|----------|
+| 🗣️ **Chatting** | 0.2 | ❌ Don't interrupt |
+| 💻 **Idle online** | 0.7 | ✅ Good time to reach out |
+| 💼 **Busy** | 0.1 | ❌ Don't bother |
+| 😴 **Sleeping** | 0.0 | ❌ Never send |
+| 🚶 **Away** | 0.3 | ⏳ Maybe later |
+| 🆘 **Needing** | 0.9 | ✅ Check in! |
 
-| Style | User is engaged | User is quiet |
-|-------|----------------|---------------|
-| **Proactive** | Send more ❤️ | Send more ❤️‍🩹 |
-| **Respectful** | Send more ❤️ | Give space 🫧 |
-| **Balanced** | Stay put 😌 | Stay put 😌 |
+No more "engaged → send more". Now it's: "user is probably busy → don't bother" or "user might need care → reach out".
 
 ---
 
@@ -113,16 +100,15 @@ poisson-love/
 │   ├── engine.py        # Poisson dice + probability dynamics
 │   ├── config.py        # YAML config
 │   └── models.py        # Data structures
-├── control/
-│   ├── pid.py           # PID controller (adaptive frequency)
-│   ├── signal.py        # Pluggable signal framework
-│   └── preference.py    # User preference → PID parameters
+├── bayesian/
+│   ├── core.py          # State estimation + send utility
+│   └── __init__.py      # State enum, StateEstimator
 ├── info_gain/
 │   ├── core.py          # Entropy × resolution potential
 │   └── sources.py       # Silence, novelty, conversation state
-├── optimal_stop/
-│   ├── core.py          # Threshold rule + secretary rule
-│   └── signals.py       # Activity, potential, urgency signals
+├── control/
+│   ├── pid.py           # PID controller (standalone use)
+│   └── signal.py        # Pluggable signal framework
 └── adapters/
     ├── openai.py        # OpenAI / GPT
     ├── anthropic.py     # Anthropic / Claude
