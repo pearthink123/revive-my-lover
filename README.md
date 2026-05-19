@@ -1,10 +1,8 @@
-# Poisson Longing 🎲
+# revive-my-lover 💘
 
-**Math models that make AI engagement feel human.**
+**A probabilistic engagement engine for AI companions.**
 
-![Poisson Longing Curve](assets/poisson_curve.png)
-
-*Turn "thinking about you" into a measurable, adaptive curve.*
+*Not "engaged → send more". Instead: "infer what the user is doing → decide if you should."*
 
 ---
 
@@ -15,14 +13,14 @@
 
 ## The Problem
 
-AI assistants are either **rigid** (fixed schedules) or **random** (no memory). Neither feels human.
+AI companions are either **rigid** (fixed schedules) or **random** (no memory). Neither feels human.
 
 ## The Solution
 
-Four math models working together:
+A probabilistic engine that decides **when** and **whether** to reach out:
 
-| Stage | Model | Question | Answer |
-|-------|-------|----------|--------|
+| Stage | Module | Question | Answer |
+|-------|--------|----------|--------|
 | 🎲 **Timing** | Poisson process | When to consider? | Randomized like real "thinking of you" |
 | 📊 **Value** | Information theory | Is this worth it? | Skip if you already know user's state |
 | 🧠 **State** | Bayesian inference | What's user doing? | Infer hidden state → decide accordingly |
@@ -32,7 +30,7 @@ Four math models working together:
 ## Quick Start
 
 ```bash
-pip install revive-my-lover
+pip install git+https://github.com/pearthink123/revive-my-lover.git
 ```
 
 ```python
@@ -102,7 +100,7 @@ revive-my-lover/
 │   └── models.py        # Data structures
 ├── bayesian/
 │   ├── core.py          # State estimation + send utility
-│   └── __init__.py      # State enum, StateEstimator
+│   └── learner.py       # Online learning from observations
 ├── info_gain/
 │   ├── core.py          # Entropy × resolution potential
 │   └── sources.py       # Silence, novelty, conversation state
@@ -170,31 +168,6 @@ persona:
 
 ---
 
-## Demos
-
-```bash
-git clone https://github.com/pearthink123/revive-my-lover
-cd revive-my-lover
-pip install -e .
-
-PYTHONPATH=src python examples/quickstart_unified.py    # 5-line quickstart
-PYTHONPATH=src python examples/pid_demo.py              # PID controller
-PYTHONPATH=src python examples/preference_demo.py       # 3 user styles
-PYTHONPATH=src python examples/info_gain_demo.py        # Information gain
-PYTHONPATH=src python examples/optimal_stop_demo.py     # Optimal stopping
-PYTHONPATH=src python examples/full_pipeline_demo.py    # All 4 stages
-```
-
----
-
-## Why "Poisson"?
-
-The Poisson process models events that happen independently at a constant average rate — like neurons firing, or "thinking about someone."
-
-It's not random chaos. It's not rigid scheduling. It's **structured spontaneity** — the mathematical model of genuine, organic missing someone.
-
----
-
 ## Dashboard
 
 可视化 AI 互动决策过程：渴望曲线、状态分布、发送历史。
@@ -207,13 +180,26 @@ pip install -e ".[dashboard]"
 streamlit run dashboard.py
 ```
 
-![Dashboard Preview](assets/dashboard.png)
-
 功能：
 - 🎲 **渴望曲线** — Poisson 概率随时间变化
 - 🧠 **状态分布** — Bayesian 推断的用户状态
 - ⏰ **按小时分布** — 什么时候容易发消息
 - 📋 **决策日志** — 每次决策的详细记录
+
+---
+
+## Demos
+
+```bash
+git clone https://github.com/pearthink123/revive-my-lover
+cd revive-my-lover
+pip install -e .
+
+PYTHONPATH=src python examples/quickstart.py              # Basic simulation
+PYTHONPATH=src python examples/bayesian_demo.py           # State inference
+PYTHONPATH=src python examples/bayesian_learning_demo.py  # Online learning
+PYTHONPATH=src python examples/info_gain_demo.py          # Information gain
+```
 
 ---
 
@@ -225,18 +211,47 @@ pip install -e ".[test]"
 
 # Run all tests
 pytest tests/ -v
-
-# Run specific module tests
-pytest tests/test_bayesian.py -v
-pytest tests/test_poisson_engine.py -v
 ```
 
-101 tests covering:
+124 tests covering:
 - 🎲 Poisson engine (determinism, growth, timing)
-- 🧠 Bayesian inference (state estimation, likelihood)
+- 🧠 Bayesian inference (state estimation, likelihood, learning)
 - 📊 Information gain (decay, thresholds)
-- 🏁 Optimal stopping (threshold, secretary rule)
 - 💘 Unified API (full pipeline)
+
+---
+
+## Consent & Safety
+
+This library is designed for **respectful AI engagement**. Please use it responsibly:
+
+### Built-in Protections
+- **Quiet hours**: No messages during configured sleep periods
+- **Minimum interval**: Anti-spam cooldown between messages
+- **State inference**: Won't bother users who are busy or sleeping
+- **Utility threshold**: Conservative default (0.5) — only sends when appropriate
+
+### Best Practices
+- ✅ **Opt-in**: Users should explicitly enable proactive messaging
+- ✅ **Easy disable**: Users must be able to turn it off at any time
+- ✅ **Transparency**: Users should know the AI can initiate contact
+- ✅ **No emotional manipulation**: Don't use this to create dependency
+- ❌ **No unsolicited contact**: Don't message users who didn't opt in
+- ❌ **No persistence**: Respect when users want to be left alone
+
+### Default Behavior
+- Messages are **never** sent during quiet hours (default: 00:00-08:00)
+- At least **1 hour** between messages (configurable)
+- High engagement **does not** mean more messages (unlike simple linear models)
+- The engine **infers state** before deciding, not just response speed
+
+---
+
+## Why "Poisson"?
+
+The Poisson process models events that happen independently at a constant average rate — like neurons firing, or "thinking about someone."
+
+It's not random chaos. It's not rigid scheduling. It's **structured spontaneity** — the mathematical model of genuine, organic missing someone.
 
 ---
 

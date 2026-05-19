@@ -1,10 +1,30 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "revive-my-lover"
-version = "0.8.0"
+version = "0.9.0"
 description = "Math models that make AI engagement feel human. Poisson timing + Bayesian state inference + Information theory."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
+authors = [
+    { name = "pear think", email = "gangwang694@gmail.com" },
+]
+keywords = ["ai", "engagement", "poisson", "bayesian", "chatbot", "timing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "pyyaml>=6.0",
 ]
@@ -16,9 +36,11 @@ all = ["openai>=1.0", "anthropic>=0.20"]
 test = ["pytest>=7.0"]
 dashboard = ["streamlit>=1.20", "plotly>=5.0"]
 
-[build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.build_meta"
+[project.urls]
+Homepage = "https://github.com/pearthink123/revive-my-lover"
+Repository = "https://github.com/pearthink123/revive-my-lover"
+Documentation = "https://github.com/pearthink123/revive-my-lover#readme"
+Issues = "https://github.com/pearthink123/revive-my-lover/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

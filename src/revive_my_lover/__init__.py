@@ -1,11 +1,14 @@
 """
-revive-my-lover: Math models that make AI engagement feel human.
+revive-my-lover: A probabilistic engagement engine for AI companions.
 
-Four models, one pipeline:
+Three core modules, one pipeline:
 1. Poisson process — randomized timing (like "thinking about you")
 2. Information gain — is this interaction worth it?
 3. Bayesian inference — what's the user doing?
-4. Optimal stopping — best moment to intervene
+
+Plus optional modules:
+- Optimal stopping — best moment to intervene (standalone use)
+- Control — PID controller for adaptive frequency (standalone use)
 
 Quick start:
     from revive_my_lover import PoissonLove
@@ -26,7 +29,7 @@ from .info_gain import InformationGain, SilenceDuration, ConversationFlow
 from .optimal_stop import OptimalStop, ThresholdRule
 from .bayesian import StateEstimator, State
 
-__version__ = "0.8.0"
+__version__ = "0.9.0"
 __all__ = [
     # Unified API
     "PoissonLove", "LoveResult",
@@ -34,10 +37,10 @@ __all__ = [
     "PoissonEngine", "Config", "TickResult", "Action", "LogEntry",
     # Info Gain
     "InformationGain", "SilenceDuration", "ConversationFlow",
-    # Optimal Stop
+    # Optimal Stop (optional)
     "OptimalStop", "ThresholdRule",
     # Bayesian
     "StateEstimator", "State",
-    # Control (kept for standalone use)
+    # Control (optional)
     "Signal", "CombinedSignal",
 ]

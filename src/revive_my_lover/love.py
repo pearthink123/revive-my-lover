@@ -1,12 +1,15 @@
 """
 PoissonLove — unified API.
 
-One class, four math models, one line to use.
+Three core modules, one decision:
+1. Poisson — when to consider
+2. InfoGain — is it worth it?
+3. Bayesian — what's the user doing?
 
 Usage:
-    from revive_my_lover import PoissonLove, UserPreference, Style
+    from revive_my_lover import PoissonLove
 
-    love = PoissonLove(preference=UserPreference(style=Style.RESPECTFUL))
+    love = PoissonLove()
     result = love.tick()
 
     if result.should_send:
@@ -47,29 +50,24 @@ class LoveResult:
 
 class PoissonLove:
     """
-    Unified math-driven AI engagement engine.
+    Probabilistic engagement engine for AI companions.
 
-    Combines four models:
-    1. Poisson process — randomized timing
-    2. Information gain — is this worth sending?
-    3. PID controller — adaptive frequency
-    4. Optimal stop — best moment to act
+    Three core modules, one decision:
+    1. Poisson process — randomized timing (when to consider)
+    2. Information gain — is this interaction worth it?
+    3. Bayesian inference — what is the user doing right now?
 
     Args:
         config: Engine configuration (or use defaults).
-        preference: User interaction preference.
         infogain_threshold: Minimum info gain ratio to send.
-        engagement_signals: Custom signal sources for PID.
+        seed: Random seed for reproducibility.
 
     Example:
-        >>> love = PoissonLove(
-        ...     preference=UserPreference(style=Style.RESPECTFUL),
-        ... )
-        >>> for _ in range(100):
-        ...     result = love.tick()
-        ...     if result.should_send:
-        ...         print(f"Send! Engagement={result.engagement:.2f}")
-        ...     love.record_engagement(0.6)  # Simulate user response
+        >>> love = PoissonLove()
+        >>> result = love.tick()
+        >>> if result.should_send:
+        ...     send_message(result.prompt)
+        ...     love.record_send()
     """
 
     def __init__(
