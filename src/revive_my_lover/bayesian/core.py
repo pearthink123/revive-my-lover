@@ -112,6 +112,10 @@ class StateEstimator:
         if total > 0:
             self.prior = {k: v / total for k, v in self.prior.items()}
         self._belief = dict(self.prior)
+        
+        # Learned parameters (initially None)
+        self._learned_likelihoods = None
+        self._learned_temporal = None
 
     @property
     def belief(self) -> dict[State, float]:
@@ -205,6 +209,32 @@ class StateEstimator:
         """Reset to initial beliefs."""
         self._belief = dict(prior or self.prior)
 
+    def update_params(self, params: dict) -> None:
+        """
+        Update estimator parameters from learned data.
+        
+        Args:
+            params: Dict from BayesianLearner.learn() containing:
+                - transitions: P(next_state | current_state)
+                - likelihoods: {state: {obs_key: (mean, std)}}
+                - temporal: P(state | hour)
+        """
+        if "transitions" in params:
+            # Update global TRANSITIONS (affects all instances)
+            for from_state in State:
+                if from_state in params["transitions"]:
+                    for to_state in State:
+                        if to_state in params["transitions"][from_state]:
+                            TRANSITIONS[from_state][to_state] = params["transitions"][from_state][to_state]
+        
+        if "likelihoods" in params:
+            # Store learned likelihoods for use in update()
+            self._learned_likelihoods = params["likelihoods"]
+        
+        if "temporal" in params:
+            # Store learned temporal patterns
+            self._learned_temporal = params["temporal"]
+
     # ── Transition ──
 
     def _transition(self) -> None:
@@ -217,9 +247,17 @@ class StateEstimator:
 
     # ── Likelihood functions ──
 
-    @staticmethod
-    def _likelihood_reply_speed(speed: float, state: State) -> float:
+    def _likelihood_reply_speed(self, speed: float, state: State) -> float:
         """P(reply_speed | state)"""
+        # Use learned parameters if available
+        if (hasattr(self, '_learned_likelihoods') and 
+            self._learned_likelihoods is not None and 
+            state in self._learned_likelihoods):
+            if "reply_speed" in self._learned_likelihoods[state]:
+                mean, std = self._learned_likelihoods[state]["reply_speed"]
+                return _gaussian(speed, mean, std)
+        
+        # Default profiles
         profiles = {
             State.CHATTING:    (0.8, 0.15),  # (mean, std)
             State.IDLE_ONLINE: (0.5, 0.2),
@@ -231,9 +269,17 @@ class StateEstimator:
         mean, std = profiles[state]
         return _gaussian(speed, mean, std)
 
-    @staticmethod
-    def _likelihood_reply_length(length: float, state: State) -> float:
+    def _likelihood_reply_length(self, length: float, state: State) -> float:
         """P(reply_length | state)"""
+        # Use learned parameters if available
+        if (hasattr(self, '_learned_likelihoods') and 
+            self._learned_likelihoods is not None and 
+            state in self._learned_likelihoods):
+            if "reply_length" in self._learned_likelihoods[state]:
+                mean, std = self._learned_likelihoods[state]["reply_length"]
+                return _gaussian(length, mean, std)
+        
+        # Default profiles
         profiles = {
             State.CHATTING:    (0.7, 0.15),
             State.IDLE_ONLINE: (0.4, 0.2),
@@ -245,9 +291,17 @@ class StateEstimator:
         mean, std = profiles[state]
         return _gaussian(length, mean, std)
 
-    @staticmethod
-    def _likelihood_hour(hour: float, state: State) -> float:
+    def _likelihood_hour(self, hour: float, state: State) -> float:
         """P(hour | state) — time of day makes some states more likely."""
+        # Use learned temporal patterns if available
+        if (hasattr(self, '_learned_temporal') and 
+            self._learned_temporal is not None and 
+            state in self._learned_temporal):
+            hour_int = int(hour) % 24
+            if hour_int in self._learned_temporal[state]:
+                return self._learned_temporal[state][hour_int]
+        
+        # Default profiles
         profiles = {
             State.CHATTING:    [(9, 12), (17, 22)],  # Active hours
             State.IDLE_ONLINE: [(8, 12), (14, 18), (19, 23)],
@@ -261,9 +315,17 @@ class StateEstimator:
                 return 1.0
         return 0.1  # Low but not zero (night owl, etc.)
 
-    @staticmethod
-    def _likelihood_silence(hours: float, state: State) -> float:
+    def _likelihood_silence(self, hours: float, state: State) -> float:
         """P(silence_hours | state)"""
+        # Use learned parameters if available
+        if (hasattr(self, '_learned_likelihoods') and 
+            self._learned_likelihoods is not None and 
+            state in self._learned_likelihoods):
+            if "silence_hours" in self._learned_likelihoods[state]:
+                mean, std = self._learned_likelihoods[state]["silence_hours"]
+                return _gaussian(hours, mean, std)
+        
+        # Default profiles
         profiles = {
             State.CHATTING:    (0.5, 1.0),   # (expected_hours, std)
             State.IDLE_ONLINE: (2.0, 2.0),
@@ -275,8 +337,7 @@ class StateEstimator:
         mean, std = profiles[state]
         return _gaussian(hours, mean, std)
 
-    @staticmethod
-    def _likelihood_reaction(has_reaction: bool, state: State) -> float:
+    def _likelihood_reaction(self, has_reaction: bool, state: State) -> float:
         """P(has_reaction | state)"""
         probs = {
             State.CHATTING:    0.7,

@@ -28,7 +28,7 @@ from .optimal_stop import OptimalStop, ThresholdRule
 from .bayesian import StateEstimator, State
 from .sde import OrnsteinUhlenbeck, GeometricBrownian, Heston, EngagementDynamics
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 __all__ = [
     # Unified API
     "PoissonLove", "LoveResult",
