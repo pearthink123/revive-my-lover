@@ -1,6 +1,6 @@
 [project]
 name = "revive-my-lover"
-version = "0.5.0"
+version = "0.6.0"
 description = "Math models that make AI engagement feel human. Poisson timing + Bayesian state inference + Information theory."
 readme = "README.md"
 license = { text = "MIT" }
