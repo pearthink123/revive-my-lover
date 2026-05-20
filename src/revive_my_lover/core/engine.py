@@ -96,19 +96,15 @@ class PoissonEngine:
         should_send, reason = self._adjudicate(hour)
 
         if should_send:
-            # Send — longing satisfied, reset
-            self.last_send_time = now
-            self.miss_streak = 0
-            old_prob = self.probability
-            self.probability = self._base_probability()
-
+            # Hit candidate — do NOT mutate state yet.
+            # Call confirm_send(now) after all downstream gates pass.
             result = TickResult(
                 action=Action.HIT_SEND,
-                probability=old_prob,
+                probability=self.probability,
                 roll=roll,
                 hour_of_day=hour,
                 reason=reason,
-                prompt=self._build_prompt(now, old_prob),
+                prompt=self._build_prompt(now, self.probability),
             )
         else:
             # Hold — longing suppressed, grows more
@@ -123,6 +119,18 @@ class PoissonEngine:
 
         self._log(now, result)
         return result
+
+    def confirm_send(self, now: Optional[datetime] = None) -> None:
+        """Call after all downstream gates approve a HIT_SEND candidate.
+
+        Resets probability and records the send time.
+        Without this call, the engine won't know a message was sent.
+        """
+        if now is None:
+            now = datetime.now()
+        self.last_send_time = now
+        self.miss_streak = 0
+        self.probability = self._base_probability()
 
     def _grow(self):
         """Increase hit probability (longing accumulates)."""

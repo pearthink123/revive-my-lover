@@ -8,14 +8,18 @@ Supports:
 """
 
 from __future__ import annotations
+import logging
 import json
 import subprocess
+import shlex
 import urllib.request
 import urllib.error
-from typing import Optional
+from typing import Optional, Union
 from ..core.config import Config
 from ..core.models import TickResult
 from .base import Adapter
+
+logger = logging.getLogger(__name__)
 
 
 class GenericAdapter(Adapter):
@@ -26,12 +30,16 @@ class GenericAdapter(Adapter):
       - "openai"  : Any OpenAI-compatible HTTP API (Ollama, vLLM, etc.)
       - "http"    : Custom HTTP endpoint with template
       - "command" : Shell command (stdin→stdout)
+
+    Command safety:
+      - list[str]: recommended, runs without shell (safe)
+      - str: runs with shell=True (convenient but less safe)
     """
 
     def __init__(self, config: Config, mode: str = "openai",
                  api_url: str = "http://localhost:11434/v1/chat/completions",
                  model: str = "llama3",
-                 command: str = None,
+                 command: Union[str, list[str]] = None,
                  headers: dict = None,
                  api_key: str = None):
         super().__init__(config)
@@ -99,7 +107,8 @@ class GenericAdapter(Adapter):
             with urllib.request.urlopen(req, timeout=30) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 return data["choices"][0]["message"]["content"]
-        except Exception:
+        except Exception as e:
+            logger.error("OpenAI-compat API call failed: %s", e)
             return None
 
     def _send_http(self, system_prompt: str, user_prompt: str) -> Optional[str]:
@@ -119,23 +128,31 @@ class GenericAdapter(Adapter):
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
                 return resp.read().decode("utf-8")
-        except Exception:
+        except Exception as e:
+            logger.error("HTTP API call failed: %s", e)
             return None
 
     def _send_command(self, system_prompt: str, user_prompt: str) -> Optional[str]:
-        """Send via shell command (stdin → stdout)."""
+        """Send via shell command (stdin → stdout).
+
+        Supports:
+          - list[str]: runs without shell (safe, recommended)
+          - str: runs with shell=True (convenient)
+        """
         if not self.command:
             return None
         full_prompt = f"System: {system_prompt}\n\nUser: {user_prompt}"
         try:
+            use_shell = isinstance(self.command, str)
             result = subprocess.run(
                 self.command,
                 input=full_prompt,
                 capture_output=True,
                 text=True,
                 timeout=60,
-                shell=True,
+                shell=use_shell,
             )
             return result.stdout.strip() or None
-        except Exception:
+        except Exception as e:
+            logger.error("Command adapter failed: %s", e)
             return None

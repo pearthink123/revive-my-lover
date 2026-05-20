@@ -13,7 +13,6 @@ revive-my-lover Dashboard — 可视化 AI 互动决策过程
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
@@ -25,8 +24,6 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from revive_my_lover import PoissonLove
-from revive_my_lover.bayesian import StateEstimator, State, BayesianLearner
-from revive_my_lover.core.models import Action
 
 
 # Page config

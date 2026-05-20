@@ -208,6 +208,7 @@ class PoissonLove:
             )
 
         # ── All stages passed → Send! ──
+        self._engine.confirm_send(now)
         prompt = self._build_prompt(now, best_state.value, poisson_result.probability)
 
         return LoveResult(
@@ -230,6 +231,7 @@ class PoissonLove:
         message: str = "",
         reply_speed: float = 0.5,
         reply_length: float = 0.5,
+        now: Optional[datetime] = None,
     ) -> None:
         """
         Record that the user replied.
@@ -238,15 +240,18 @@ class PoissonLove:
             message: The reply text (for novelty tracking).
             reply_speed: How fast they replied (0-1).
             reply_length: How long the reply was (0-1).
+            now: Timestamp (for simulation/testing). Defaults to datetime.now().
         """
-        self._last_user_reply = datetime.now()
+        if now is None:
+            now = datetime.now()
+        self._last_user_reply = now
         self._my_unanswered = 0
         self._last_reply_speed = reply_speed
         self._last_reply_length = reply_length
         self._infogain.on_receive()
 
         # Update Bayesian estimator with the reply observation
-        hour = datetime.now().hour + datetime.now().minute / 60.0
+        hour = now.hour + now.minute / 60.0
         self._estimator.update(
             reply_speed=reply_speed,
             reply_length=reply_length,
@@ -257,7 +262,7 @@ class PoissonLove:
         if message:
             self._recent_messages.append(message)
 
-    def record_send(self, message: str = "") -> None:
+    def record_send(self, message: str = "", now: Optional[datetime] = None) -> None:
         """Record that we sent a message."""
         self._my_unanswered += 1
         self._infogain.on_send()

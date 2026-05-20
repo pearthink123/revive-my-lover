@@ -25,21 +25,37 @@ logger = logging.getLogger("revive-my-lover")
 
 class Runner:
     """
-    Drives the PoissonEngine on a schedule.
+    Drives PoissonEngine or PoissonLove on a schedule.
 
-    Usage:
-        config = Config.from_yaml("pcpx.yaml")
+    Usage (full pipeline):
+        from revive_my_lover import PoissonLove
+        love = PoissonLove()
+        adapter = OpenAIAdapter(config, api_key="sk-...")
+        runner = Runner(love, adapter)
+        runner.run()
+
+    Usage (timing only):
         engine = PoissonEngine(config)
         adapter = OpenAIAdapter(config, api_key="sk-...")
-
         runner = Runner(engine, adapter)
-        runner.run()  # blocking loop
+        runner.run()
     """
 
-    def __init__(self, engine: PoissonEngine, adapter: Adapter = None,
+    def __init__(self, engine, adapter: Adapter = None,
                  on_tick: Callable[[TickResult], None] = None,
                  log_path: str | Path = None):
-        self.engine = engine
+        # Support both PoissonEngine and PoissonLove
+        self._love = None
+        self._engine = None
+
+        # Duck-type check for PoissonLove (has .tick() and ._engine)
+        if hasattr(engine, '_engine') and hasattr(engine, '_estimator'):
+            # PoissonLove instance
+            self._love = engine
+            self._engine = engine._engine
+        else:
+            self._engine = engine
+
         self.adapter = adapter
         self.on_tick = on_tick
         self.log_path = Path(log_path) if log_path else None
@@ -47,12 +63,16 @@ class Runner:
 
     def tick(self, now: datetime = None) -> TickResult:
         """
-        Run a single tick. Use this when integrating into your own scheduler.
+        Run a single tick. Uses full PoissonLove pipeline if available,
+        falls back to PoissonEngine timing only.
 
         Returns the TickResult. If result.should_send and adapter is set,
         also calls the AI and returns the response in result.metadata['response'].
         """
-        result = self.engine.tick(now)
+        if self._love:
+            result = self._love.tick(now)
+        else:
+            result = self._engine.tick(now)
 
         if result.should_send and self.adapter:
             try:
@@ -65,7 +85,7 @@ class Runner:
 
         # Save log
         if self.log_path:
-            self.engine.save_log(self.log_path)
+            self._engine.save_log(self.log_path)
 
         # Callback
         if self.on_tick:
@@ -82,7 +102,7 @@ class Runner:
             max_ticks: Stop after N ticks (for testing). None = infinite.
         """
         if interval_minutes is None:
-            interval_minutes = self.engine.config.engagement.check_interval_minutes
+            interval_minutes = self._engine.config.engagement.check_interval_minutes
 
         self._running = True
         ticks = 0
@@ -109,7 +129,7 @@ class Runner:
             start: Start time. Defaults to now.
         """
         if interval_minutes is None:
-            interval_minutes = self.engine.config.engagement.check_interval_minutes
+            interval_minutes = self._engine.config.engagement.check_interval_minutes
         if start is None:
             start = datetime.now()
 

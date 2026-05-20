@@ -172,7 +172,7 @@ persona:
 
 ## Dashboard
 
-可视化 AI 互动决策过程：渴望曲线、状态分布、发送历史。
+Visualize the AI engagement decision process: longing curves, state distributions, and send history.
 
 ```bash
 # Install dashboard dependencies
@@ -182,11 +182,11 @@ pip install -e ".[dashboard]"
 streamlit run dashboard.py
 ```
 
-功能：
-- 🎲 **渴望曲线** — Poisson 概率随时间变化
-- 🧠 **状态分布** — Bayesian 推断的用户状态
-- ⏰ **按小时分布** — 什么时候容易发消息
-- 📋 **决策日志** — 每次决策的详细记录
+Features:
+- 🎲 **Longing Curve** — Poisson probability over time
+- 🧠 **State Distribution** — Bayesian-inferred user state
+- ⏰ **Hourly Pattern** — When messages are most likely sent
+- 📋 **Decision Log** — Detailed record of each decision
 
 ---
 
@@ -213,29 +213,29 @@ from revive_my_lover import PoissonLove
 
 love = PoissonLove()
 
-# 每隔一段时间检查
+# Check periodically
 result = love.tick()
 if result.should_send:
-    send_message("想你了~")
+    send_message("Thinking of you~")
     love.record_send()
 
-# 收到回复后
+# When user replies
 love.record_reply(reply_speed=0.8, reply_length=0.6)
 ```
 
 ### Telegram Bot
 
 ```bash
-# 安装依赖
+# Install dependency
 pip install python-telegram-bot
 
-# 运行
+# Run
 python examples/telegram_bot.py --token YOUR_TOKEN --chat-id YOUR_CHAT_ID
 ```
 
-### Discord / Slack / 微信
+### Discord / Slack / WeChat
 
-同样的模式，只需替换发送函数：
+Same pattern, just swap the send function:
 
 ```python
 # Discord
@@ -244,7 +244,7 @@ await channel.send(message)
 # Slack
 slack_client.chat_postMessage(channel=channel_id, text=message)
 
-# 微信（itchat）
+# WeChat (itchat)
 itchat.send(message, toUserName=friend_name)
 ```
 
