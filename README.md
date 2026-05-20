@@ -182,6 +182,10 @@ pip install -e ".[dashboard]"
 streamlit run dashboard.py
 ```
 
+![Dashboard Overview](assets/dashboard-overview.png)
+
+![Dashboard Detail](assets/dashboard-detail.png)
+
 Features:
 - 🎲 **Longing Curve** — Poisson probability over time
 - 🧠 **State Distribution** — Bayesian-inferred user state
