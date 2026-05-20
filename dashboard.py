@@ -68,8 +68,8 @@ def run_simulation(lam, check_interval, growth_factor, sim_hours, seed):
     results = []
     now = datetime.now()
     
-    ticks_per_hour = 60 // check_interval
-    for i in range(sim_hours * ticks_per_hour):
+    total_ticks = int(sim_hours * 60 / check_interval)
+    for i in range(total_ticks):
         tick_time = now + timedelta(minutes=i * check_interval)
         result = love.tick(now=tick_time)
         

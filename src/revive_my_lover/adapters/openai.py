@@ -1,13 +1,15 @@
 """OpenAI adapter for revive-my-lover."""
 
 from __future__ import annotations
+
 import logging
 from typing import Optional
-from ..core.config import Config
 
-logger = logging.getLogger(__name__)
+from ..core.config import Config
 from ..core.models import TickResult
 from .base import Adapter
+
+logger = logging.getLogger(__name__)
 
 
 class OpenAIAdapter(Adapter):
