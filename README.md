@@ -310,7 +310,9 @@ It's not random chaos. It's not rigid scheduling. It's **structured spontaneity*
 
 This is the **stable base** — focused on smart timing, not deep emotion.
 
-For memory-triggered longing, relationship state machines, and emotional cost modeling, see the upcoming **emotional extension** (coming soon).
+For memory-triggered longing, relationship state machines, and AI self-emotion modeling, see:
+
+**→ [affective-longing](https://github.com/pearthink123/affective-longing)** — Emotional extension with 3 layers (Memory + Relationship + Emotion)
 
 ---
 
