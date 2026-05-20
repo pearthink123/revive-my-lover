@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import logging
+
 from ..core.config import Config
 from ..core.models import TickResult
 from .base import Adapter
+
+logger = logging.getLogger(__name__)
 
 
 class AnthropicAdapter(Adapter):
@@ -66,5 +70,6 @@ class AnthropicAdapter(Adapter):
                 ],
             )
             return response.content[0].text
-        except Exception:
-            return None
+        except Exception as e:
+            logger.error("Anthropic API call failed: %s", e)
+            raise

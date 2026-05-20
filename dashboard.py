@@ -259,7 +259,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style="text-align: center; color: #888;">
-        💘 revive-companion v1.0.1 |
+        💘 revive-companion v1.0.2 |
         <a href="https://github.com/pearthink123/revive-companion">GitHub</a> |
         Math models that make AI engagement feel human
     </div>

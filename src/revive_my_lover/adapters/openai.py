@@ -80,4 +80,4 @@ class OpenAIAdapter(Adapter):
             return response.choices[0].message.content
         except Exception as e:
             logger.error("OpenAI API call failed: %s", e)
-            return None
+            raise
