@@ -24,7 +24,7 @@ from typing import Optional
 from .core.engine import PoissonEngine
 from .core.config import Config
 from .core.models import Action, TickResult
-from .control import Signal, CombinedSignal, UserPreference, Style, Response
+from .control import Signal, CombinedSignal
 from .info_gain import InformationGain, SilenceDuration, ConversationFlow, MessageNovelty
 from .bayesian import StateEstimator, State
 
@@ -73,7 +73,6 @@ class PoissonLove:
     def __init__(
         self,
         config: Optional[Config] = None,
-        preference: Optional[UserPreference] = None,
         infogain_threshold: float = 0.20,
         seed: Optional[int] = None,
     ):

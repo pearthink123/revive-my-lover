@@ -68,8 +68,9 @@ def run_simulation(lam, check_interval, growth_factor, sim_hours, seed):
     results = []
     now = datetime.now()
     
-    for i in range(sim_hours * 2):  # Check every 30 min
-        tick_time = now + timedelta(minutes=i * 30)
+    ticks_per_hour = 60 // check_interval
+    for i in range(sim_hours * ticks_per_hour):
+        tick_time = now + timedelta(minutes=i * check_interval)
         result = love.tick(now=tick_time)
         
         # Simulate user behavior
@@ -238,7 +239,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style="text-align: center; color: #888;">
-        💘 revive-my-lover v0.8.0 | 
+        💘 revive-my-lover v0.9.0 |
         <a href="https://github.com/pearthink123/revive-my-lover">GitHub</a> |
         Math models that make AI engagement feel human
     </div>

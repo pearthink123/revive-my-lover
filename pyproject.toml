@@ -34,7 +34,7 @@ openai = ["openai>=1.0"]
 anthropic = ["anthropic>=0.20"]
 all = ["openai>=1.0", "anthropic>=0.20"]
 test = ["pytest>=7.0"]
-dashboard = ["streamlit>=1.20", "plotly>=5.0"]
+dashboard = ["streamlit>=1.20", "plotly>=5.0", "pandas>=1.5", "numpy>=1.23"]
 
 [project.urls]
 Homepage = "https://github.com/pearthink123/revive-my-lover"

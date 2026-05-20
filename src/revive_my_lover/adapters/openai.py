@@ -1,8 +1,11 @@
 """OpenAI adapter for revive-my-lover."""
 
 from __future__ import annotations
+import logging
 from typing import Optional
 from ..core.config import Config
+
+logger = logging.getLogger(__name__)
 from ..core.models import TickResult
 from .base import Adapter
 
@@ -69,4 +72,5 @@ class OpenAIAdapter(Adapter):
             )
             return response.choices[0].message.content
         except Exception as e:
+            logger.error("OpenAI API call failed: %s", e)
             return None
