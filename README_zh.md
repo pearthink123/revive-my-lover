@@ -1,4 +1,4 @@
-# revive-my-lover 💘
+# revive-companion 💘
 
 **让 AI 主动互动更像人类的概率引擎。**
 
@@ -34,7 +34,7 @@ AI 助手要么**太被动**（等你来找它），要么**太刷屏**（定时
 ## 快速开始
 
 ```bash
-pip install revive-my-lover
+pip install revive-companion
 ```
 
 ```python
@@ -257,6 +257,6 @@ MIT
 
 ## 链接
 
-- 📦 [GitHub](https://github.com/pearthink123/revive-my-lover)
+- 📦 [GitHub](https://github.com/pearthink123/revive-companion)
 - 📖 [English README](README.md)
 - 📝 [技术博客](BLOG.md)

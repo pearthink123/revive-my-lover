@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "revive-my-lover"
+name = "revive-companion"
 version = "1.0.0"
 description = "Math models that make AI engagement feel human. Poisson timing + Bayesian state inference + Information theory."
 readme = "README.md"
@@ -37,10 +37,10 @@ test = ["pytest>=7.0"]
 dashboard = ["streamlit>=1.20", "plotly>=5.0", "pandas>=1.5", "numpy>=1.23"]
 
 [project.urls]
-Homepage = "https://github.com/pearthink123/revive-my-lover"
-Repository = "https://github.com/pearthink123/revive-my-lover"
-Documentation = "https://github.com/pearthink123/revive-my-lover#readme"
-Issues = "https://github.com/pearthink123/revive-my-lover/issues"
+Homepage = "https://github.com/pearthink123/revive-companion"
+Repository = "https://github.com/pearthink123/revive-companion"
+Documentation = "https://github.com/pearthink123/revive-companion#readme"
+Issues = "https://github.com/pearthink123/revive-companion/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,4 +1,4 @@
-# revive-my-lover 💘
+# revive-companion 💘
 
 **A probabilistic engagement engine for AI companions.**
 
@@ -32,7 +32,7 @@ A probabilistic engine that decides **when** and **whether** to reach out:
 ## Quick Start
 
 ```bash
-pip install revive-my-lover
+pip install revive-companion
 ```
 
 ```python
@@ -94,7 +94,7 @@ runner.run()
 ## Architecture
 
 ```
-revive-my-lover/
+revive-companion/
 ├── love.py              # Unified API (start here)
 ├── core/
 │   ├── engine.py        # Poisson dice + probability dynamics
@@ -193,8 +193,8 @@ Features:
 ## Demos
 
 ```bash
-git clone https://github.com/pearthink123/revive-my-lover
-cd revive-my-lover
+git clone https://github.com/pearthink123/revive-companion
+cd revive-companion
 pip install -e .
 
 PYTHONPATH=src python examples/quickstart.py              # Basic simulation

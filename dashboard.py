@@ -1,5 +1,5 @@
 """
-revive-my-lover Dashboard — 可视化 AI 互动决策过程
+revive-companion Dashboard — 可视化 AI 互动决策过程
 
 展示：
 1. 🎲 渴望曲线 — Poisson 概率随时间变化
@@ -28,12 +28,12 @@ from revive_my_lover import PoissonLove
 
 # Page config
 st.set_page_config(
-    page_title="💘 revive-my-lover Dashboard",
+    page_title="💘 revive-companion Dashboard",
     page_icon="💘",
     layout="wide",
 )
 
-st.title("💘 revive-my-lover Dashboard")
+st.title("💘 revive-companion Dashboard")
 st.markdown("**Math models that make AI engagement feel human**")
 
 
@@ -236,7 +236,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style="text-align: center; color: #888;">
-        💘 revive-my-lover v1.0.0 |
+        💘 revive-companion v1.0.0 |
         <a href="https://github.com/pearthink123/revive-my-lover">GitHub</a> |
         Math models that make AI engagement feel human
     </div>
