@@ -29,6 +29,16 @@ A probabilistic engine that decides **when** and **whether** to reach out:
 
 ---
 
+> 🧠💫 **Want more?** Let your AI companion truly *remember*, *evolve relationships*, and have *emotional states*.
+>
+> **→ [affective-longing](https://github.com/pearthink123/affective-longing)** — Memory triggers + Relationship state machine + AI self-emotion (VAD model)
+>
+> ```bash
+> pip install affective-longing[memory]
+> ```
+
+---
+
 ## Quick Start
 
 ```bash
