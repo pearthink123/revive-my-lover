@@ -1,4 +1,4 @@
-"""Core data structures for revive-my-lover."""
+"""Core data structures for revive-companion."""
 
 from __future__ import annotations
 

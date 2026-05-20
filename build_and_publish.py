@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build and publish revive-my-lover to PyPI.
+Build and publish revive-companion to PyPI.
 
 Usage:
     python build_and_publish.py          # Build only
@@ -70,7 +70,7 @@ def main():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     print("=" * 60)
-    print("💘 revive-my-lover PyPI Build Script")
+    print("💘 revive-companion PyPI Build Script")
     print("=" * 60)
 
     # Check if build tools are installed
@@ -96,14 +96,14 @@ def main():
             upload_test()
             print("\n✅ Uploaded to TestPyPI!")
             print(
-                "   Test with: pip install --index-url https://test.pypi.org/simple/ revive-my-lover"
+                "   Test with: pip install --index-url https://test.pypi.org/simple/ revive-companion"
             )
         elif sys.argv[1] == "--prod":
             confirm = input("\n⚠️  Upload to PRODUCTION PyPI? (yes/no): ")
             if confirm.lower() == "yes":
                 upload_prod()
                 print("\n✅ Uploaded to PyPI!")
-                print("   Install with: pip install revive-my-lover")
+                print("   Install with: pip install revive-companion")
             else:
                 print("❌ Cancelled")
         else:

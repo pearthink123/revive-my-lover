@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "revive-companion"
-version = "1.0.1"
+version = "1.0.2"
 description = "Math models that make AI engagement feel human. Poisson timing + Bayesian state inference + Information theory."
 readme = "README.md"
 license = { text = "MIT" }

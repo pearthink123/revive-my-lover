@@ -1,4 +1,4 @@
-"""OpenAI adapter for revive-my-lover."""
+"""OpenAI adapter for revive-companion."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class OpenAIAdapter(Adapter):
-    """Connect revive-my-lover to OpenAI's API."""
+    """Connect revive-companion to OpenAI's API."""
 
     def __init__(
         self,

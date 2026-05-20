@@ -1,5 +1,5 @@
 """
-Quick Start — 5 lines to run revive-my-lover.
+Quick Start — 5 lines to run revive-companion.
 
 Usage:
     python quickstart.py                    # Simulation mode (48h)

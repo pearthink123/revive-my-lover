@@ -1,4 +1,4 @@
-"""Configuration loader for revive-my-lover."""
+"""Configuration loader for revive-companion."""
 
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ class PersonaConfig:
 
 @dataclass
 class Config:
-    """Full revive-my-lover configuration."""
+    """Full revive-companion configuration."""
 
     engagement: EngagementConfig = field(default_factory=EngagementConfig)
     persona: PersonaConfig = field(default_factory=PersonaConfig)

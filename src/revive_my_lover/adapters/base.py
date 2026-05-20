@@ -14,7 +14,7 @@ class Adapter(ABC):
     """
     Base class for platform adapters.
 
-    Subclass this to connect revive-my-lover to any AI platform.
+    Subclass this to connect revive-companion to any AI platform.
     """
 
     def __init__(self, config: Config):

@@ -1,5 +1,5 @@
 """
-revive-my-lover: A probabilistic engagement engine for AI companions.
+revive-companion: A probabilistic engagement engine for AI companions.
 
 Three core modules, one pipeline:
 1. Poisson process — randomized timing (like "thinking about you")

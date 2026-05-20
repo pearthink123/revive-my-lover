@@ -1,4 +1,4 @@
-# revive-my-lover TODO
+# revive-companion TODO
 
 ## 📌 当前状态
 - ✅ v0.9.0 已发布到 GitHub
@@ -19,7 +19,7 @@
   - r/MachineLearning — 技术帖，讲数学原理
   - r/LocalLLaMA — "Works with any LLM backend"
   - r/Python — 库发布帖
-  
+
 - [ ] **Twitter/X**
   - 发 demo 视频（30秒）
   - Thread 讲解数学原理

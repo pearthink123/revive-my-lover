@@ -269,15 +269,15 @@ The math is the same. Only the message content changes.
 ## Try It Yourself
 
 ```bash
-pip install git+https://github.com/pearthink123/revive-my-lover.git
+pip install git+https://github.com/pearthink123/revive-companion.git
 
 # Run demo
-git clone https://github.com/pearthink123/revive-my-lover
-cd revive-my-lover
+git clone https://github.com/pearthink123/revive-companion
+cd revive-companion
 python examples/integration_example.py
 ```
 
-GitHub: [pearthink123/revive-my-lover](https://github.com/pearthink123/revive-my-lover)
+GitHub: [pearthink123/revive-companion](https://github.com/pearthink123/revive-companion)
 
 ---
 

@@ -1,7 +1,7 @@
 """
-Simple Integration Example — revive-my-lover + Any Bot
+Simple Integration Example — revive-companion + Any Bot
 
-展示如何把 revive-my-lover 集成到任何 bot/agent 中。
+展示如何把 revive-companion 集成到任何 bot/agent 中。
 
 核心逻辑：
 1. 每隔一段时间检查

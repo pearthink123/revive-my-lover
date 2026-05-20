@@ -1,7 +1,7 @@
 """
-Telegram Bot Integration — revive-my-lover + Telegram
+Telegram Bot Integration — revive-companion + Telegram
 
-展示如何用 revive-my-lover 决定什么时候主动发消息给用户。
+展示如何用 revive-companion 决定什么时候主动发消息给用户。
 
 功能：
 - 每 30 分钟检查一次
@@ -32,7 +32,7 @@ except ImportError:
     print("❌ 请安装: pip install python-telegram-bot")
     exit(1)
 
-# revive-my-lover
+# revive-companion
 import os
 import sys
 
@@ -71,7 +71,7 @@ class TelegramCompanion:
         self.check_interval = check_interval
         self.quiet_start, self.quiet_end = quiet_hours
 
-        # Initialize revive-my-lover
+        # Initialize revive-companion
         self.love = PoissonLove(seed=42)
         self.learner = BayesianLearner(min_observations=10)
 
@@ -227,7 +227,7 @@ class TelegramCompanion:
 
 def main():
     """CLI entry point."""
-    parser = argparse.ArgumentParser(description="💘 revive-my-lover Telegram Bot")
+    parser = argparse.ArgumentParser(description="💘 revive-companion Telegram Bot")
     parser.add_argument("--token", required=True, help="Telegram bot token from @BotFather")
     parser.add_argument("--chat-id", required=True, help="Target chat ID (get from @userinfobot)")
     parser.add_argument(

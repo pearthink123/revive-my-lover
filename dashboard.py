@@ -14,7 +14,7 @@ revive-companion Dashboard — 可视化 AI 互动决策过程
 import os
 import random
 
-# Import revive-my-lover
+# Import revive-companion
 import sys
 from datetime import datetime, timedelta
 
@@ -260,7 +260,7 @@ st.markdown(
     """
     <div style="text-align: center; color: #888;">
         💘 revive-companion v1.0.1 |
-        <a href="https://github.com/pearthink123/revive-my-lover">GitHub</a> |
+        <a href="https://github.com/pearthink123/revive-companion">GitHub</a> |
         Math models that make AI engagement feel human
     </div>
     """,

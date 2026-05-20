@@ -1,5 +1,5 @@
 """
-Runner — the standalone scheduler that drives revive-my-lover.
+Runner — the standalone scheduler that drives revive-companion.
 
 Can run as:
   - A simple loop (blocking)
@@ -18,7 +18,7 @@ from pathlib import Path
 from .adapters.base import Adapter
 from .core.models import Action, TickResult
 
-logger = logging.getLogger("revive-my-lover")
+logger = logging.getLogger("revive-companion")
 
 
 class Runner:
