@@ -38,8 +38,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from revive_my_lover import PoissonLove
-from revive_my_lover.bayesian import BayesianLearner
+from revive_companion import PoissonLove
+from revive_companion.bayesian import BayesianLearner
 
 # Logging
 logging.basicConfig(

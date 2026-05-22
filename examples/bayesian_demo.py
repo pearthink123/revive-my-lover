@@ -7,7 +7,7 @@ then decide whether to send.
 Run: PYTHONPATH=src python examples/bayesian_demo.py
 """
 
-from revive_my_lover.bayesian import StateEstimator
+from revive_companion.bayesian import StateEstimator
 
 
 def print_beliefs(est, label=""):

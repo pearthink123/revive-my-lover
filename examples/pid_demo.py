@@ -5,7 +5,7 @@ Shows how to use PIDController with custom signals
 in different scenarios. Run: python examples/pid_demo.py
 """
 
-from revive_my_lover.control import CombinedSignal, PIDController, Signal
+from revive_companion.control import CombinedSignal, PIDController, Signal
 
 # ─── Scenario 1: Chat engagement frequency ───
 

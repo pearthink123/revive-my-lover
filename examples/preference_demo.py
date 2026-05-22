@@ -10,7 +10,7 @@ Run: PYTHONPATH=src python examples/preference_demo.py
 import random
 from datetime import datetime, timedelta
 
-from revive_my_lover.control import (
+from revive_companion.control import (
     CombinedSignal,
     PIDController,
     Response,
@@ -18,9 +18,9 @@ from revive_my_lover.control import (
     Style,
     UserPreference,
 )
-from revive_my_lover.core.config import Config
-from revive_my_lover.core.engine import PoissonEngine
-from revive_my_lover.core.models import Action
+from revive_companion.core.config import Config
+from revive_companion.core.engine import PoissonEngine
+from revive_companion.core.models import Action
 
 # ─── Simulated user (same behavior for all 3 styles) ───
 

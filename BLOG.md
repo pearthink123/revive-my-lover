@@ -234,7 +234,7 @@ After 100 observations, it learns:
 ## Code Example
 
 ```python
-from revive_my_lover import PoissonLove
+from revive_companion import PoissonLove
 
 love = PoissonLove()
 

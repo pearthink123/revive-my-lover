@@ -15,7 +15,7 @@ import sys
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from revive_my_lover.bayesian import BayesianLearner, State, StateEstimator
+from revive_companion.bayesian import BayesianLearner, State, StateEstimator
 
 
 def demo_learning():

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from revive_my_lover.love import LoveResult, PoissonLove
+from revive_companion.love import LoveResult, PoissonLove
 
 
 @pytest.fixture

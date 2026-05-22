@@ -7,7 +7,7 @@ Three core modules, one decision:
 3. Bayesian — what's the user doing?
 
 Usage:
-    from revive_my_lover import PoissonLove
+    from revive_companion import PoissonLove
 
     love = PoissonLove()
     result = love.tick()

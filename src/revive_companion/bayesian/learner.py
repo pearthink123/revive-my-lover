@@ -7,7 +7,7 @@ Learns from observations to improve:
 3. Temporal patterns — when states are likely
 
 Usage:
-    from revive_my_lover.bayesian import StateEstimator, BayesianLearner
+    from revive_companion.bayesian import StateEstimator, BayesianLearner
 
     estimator = StateEstimator()
     learner = BayesianLearner()

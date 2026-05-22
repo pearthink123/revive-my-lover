@@ -38,7 +38,7 @@ pip install revive-companion
 ```
 
 ```python
-from revive_my_lover import PoissonLove
+from revive_companion import PoissonLove
 
 love = PoissonLove()
 
@@ -170,7 +170,7 @@ streamlit run dashboard.py
 引擎会学习用户习惯：
 
 ```python
-from revive_my_lover.bayesian import BayesianLearner
+from revive_companion.bayesian import BayesianLearner
 
 learner = BayesianLearner()
 

@@ -2,8 +2,8 @@
 
 from datetime import datetime
 
-from revive_my_lover.core.config import Config
-from revive_my_lover.core.models import Action, LogEntry, TickResult
+from revive_companion.core.config import Config
+from revive_companion.core.models import Action, LogEntry, TickResult
 
 
 class TestAction:

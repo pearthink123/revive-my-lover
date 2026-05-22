@@ -25,7 +25,7 @@ from plotly.subplots import make_subplots
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from revive_my_lover import PoissonLove
+from revive_companion import PoissonLove
 
 # Page config
 st.set_page_config(

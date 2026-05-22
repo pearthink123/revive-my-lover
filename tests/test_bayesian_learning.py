@@ -2,7 +2,7 @@
 
 import pytest
 
-from revive_my_lover.bayesian import BayesianLearner, State, StateEstimator
+from revive_companion.bayesian import BayesianLearner, State, StateEstimator
 
 
 @pytest.fixture

@@ -2,7 +2,7 @@
 
 import pytest
 
-from revive_my_lover.bayesian.core import TRANSITIONS, State, StateEstimator
+from revive_companion.bayesian.core import TRANSITIONS, State, StateEstimator
 
 
 @pytest.fixture

@@ -9,7 +9,7 @@ Key: resolution_rate depends on how much NEW information a message can provide,
 not just the entropy of the current state.
 
 Usage:
-    from revive_my_lover.info_gain import InformationGain, InfoSource
+    from revive_companion.info_gain import InformationGain, InfoSource
 
     gain = InformationGain(sources=[...], threshold=0.25)
     result = gain.evaluate()

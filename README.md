@@ -49,7 +49,7 @@ pip install revive-companion
 ```
 
 ```python
-from revive_my_lover import PoissonLove
+from revive_companion import PoissonLove
 
 love = PoissonLove()
 
@@ -85,19 +85,19 @@ No more "engaged → send more". Now it's: "user is probably busy → don't both
 
 ```python
 # OpenAI / GPT
-from revive_my_lover.adapters import OpenAIAdapter
+from revive_companion.adapters import OpenAIAdapter
 adapter = OpenAIAdapter(config, api_key="sk-...")
 
 # Anthropic / Claude
-from revive_my_lover.adapters import AnthropicAdapter
+from revive_companion.adapters import AnthropicAdapter
 adapter = AnthropicAdapter(config, api_key="sk-ant-...")
 
 # Ollama / local models
-from revive_my_lover.adapters import GenericAdapter
+from revive_companion.adapters import GenericAdapter
 adapter = GenericAdapter(config, api_url="http://localhost:11434/v1/chat/completions")
 
 # Run
-from revive_my_lover.runner import Runner
+from revive_companion.runner import Runner
 runner = Runner(engine, adapter)
 runner.run()
 ```
@@ -226,7 +226,7 @@ PYTHONPATH=src python examples/integration_example.py     # Smart notifier
 ### Simple Integration (Any Bot)
 
 ```python
-from revive_my_lover import PoissonLove
+from revive_companion import PoissonLove
 
 love = PoissonLove()
 

@@ -17,7 +17,7 @@ jobs:
       - run: pip install ruff mypy
       - run: ruff check src/ tests/
       - run: ruff format --check src/ tests/
-      - run: mypy src/revive_my_lover/ --ignore-missing-imports
+      - run: mypy src/revive_companion/ --ignore-missing-imports
 
   test:
     runs-on: ubuntu-latest

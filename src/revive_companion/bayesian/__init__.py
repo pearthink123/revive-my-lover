@@ -1,5 +1,5 @@
 """
-revive_my_lover.bayesian — Infer user's hidden state, then decide.
+revive_companion.bayesian — Infer user's hidden state, then decide.
 
 Instead of "engagement high → send more", we ask:
 "What is the user probably doing right now?" → then decide accordingly.
@@ -20,7 +20,7 @@ Observations:
   has_reaction — did user react to last message
 
 Usage:
-    from revive_my_lover.bayesian import StateEstimator, BayesianLearner
+    from revive_companion.bayesian import StateEstimator, BayesianLearner
 
     est = StateEstimator()
     learner = BayesianLearner()

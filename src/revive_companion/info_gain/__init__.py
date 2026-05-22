@@ -1,10 +1,10 @@
 """
-revive_my_lover.info_gain — Information theory for AI engagement.
+revive_companion.info_gain — Information theory for AI engagement.
 
 Uses entropy × resolution_potential to answer: "Is this interaction worth it?"
 
 Example:
-    from revive_my_lover.info_gain import InformationGain, SilenceDuration
+    from revive_companion.info_gain import InformationGain, SilenceDuration
 
     gain = InformationGain(
         sources=[SilenceDuration(last_reply_time=some_time)],

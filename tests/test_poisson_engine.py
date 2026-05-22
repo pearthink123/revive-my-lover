@@ -5,9 +5,9 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from revive_my_lover.core.config import Config
-from revive_my_lover.core.engine import PoissonEngine
-from revive_my_lover.core.models import Action
+from revive_companion.core.config import Config
+from revive_companion.core.engine import PoissonEngine
+from revive_companion.core.models import Action
 
 
 @pytest.fixture

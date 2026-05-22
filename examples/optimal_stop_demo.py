@@ -8,7 +8,7 @@ Run: PYTHONPATH=src python examples/optimal_stop_demo.py
 
 import random
 
-from revive_my_lover.optimal_stop import (
+from revive_companion.optimal_stop import (
     OptimalStop,
     SecretaryRule,
     ThresholdRule,

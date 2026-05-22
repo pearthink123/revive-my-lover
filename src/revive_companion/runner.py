@@ -26,7 +26,7 @@ class Runner:
     Drives PoissonEngine or PoissonLove on a schedule.
 
     Usage (full pipeline):
-        from revive_my_lover import PoissonLove
+        from revive_companion import PoissonLove
         love = PoissonLove()
         adapter = OpenAIAdapter(config, api_key="sk-...")
         runner = Runner(love, adapter)

@@ -11,7 +11,7 @@ Plus optional modules:
 - Control — PID controller for adaptive frequency (standalone use)
 
 Quick start:
-    from revive_my_lover import PoissonLove
+    from revive_companion import PoissonLove
 
     love = PoissonLove()
     result = love.tick()

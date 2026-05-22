@@ -13,8 +13,8 @@ from pathlib import Path
 # Add src to path for local development
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from revive_my_lover import Config, PoissonEngine
-from revive_my_lover.runner import Runner
+from revive_companion import Config, PoissonEngine
+from revive_companion.runner import Runner
 
 
 def main():

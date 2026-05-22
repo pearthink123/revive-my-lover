@@ -2,7 +2,7 @@
 
 import pytest
 
-from revive_my_lover.info_gain import (
+from revive_companion.info_gain import (
     ConversationFlow,
     InformationGain,
     InfoSource,

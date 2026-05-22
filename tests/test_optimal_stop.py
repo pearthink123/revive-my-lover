@@ -2,7 +2,7 @@
 
 import pytest
 
-from revive_my_lover.optimal_stop.core import (
+from revive_companion.optimal_stop.core import (
     Decision,
     OptimalStop,
     SecretaryRule,
