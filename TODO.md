@@ -83,9 +83,9 @@
 
 ## 🐛 已知问题
 
-- [ ] OpenAIAdapter.send() 捕获所有异常后直接 return None，调试时会很痛
-- [ ] record_reply() 强绑定 datetime.now()，不好做时间模拟
-- [ ] load_log() 在 HIT_SEND 后恢复概率可能不符合发送后 reset 的语义
+- [x] ~~OpenAIAdapter.send() 捕获所有异常后直接 return None~~ → GenericAdapter 三处已改为 raise（OpenAI/Anthropic adapter 已经是 raise）
+- [x] ~~record_reply() 强绑定 datetime.now()~~ → tick() 和 record_reply() 均已支持 now 参数注入
+- [x] ~~load_log() 在 HIT_SEND 后恢复概率可能不符合发送后 reset 的语义~~ → HIT_SEND 恢复时 reset 到 base probability
 
 ---
 

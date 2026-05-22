@@ -8,6 +8,9 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/pearthink123/revive-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/pearthink123/revive-companion/actions/workflows/ci.yml)
+[![PyPI version](https://img.shields.io/pypi/v/revive-companion.svg)](https://pypi.org/project/revive-companion/)
+[![Tests](https://img.shields.io/badge/tests-124%20passing-brightgreen.svg)]()
 
 English | [中文](README_zh.md)
 

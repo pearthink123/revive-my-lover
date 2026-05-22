@@ -115,7 +115,7 @@ class GenericAdapter(Adapter):
                 return data["choices"][0]["message"]["content"]
         except Exception as e:
             logger.error("OpenAI-compat API call failed: %s", e)
-            return None
+            raise
 
     def _send_http(self, system_prompt: str, user_prompt: str) -> str | None:
         """Send via custom HTTP endpoint."""
@@ -138,7 +138,7 @@ class GenericAdapter(Adapter):
                 return resp.read().decode("utf-8")
         except Exception as e:
             logger.error("HTTP API call failed: %s", e)
-            return None
+            raise
 
     def _send_command(self, system_prompt: str, user_prompt: str) -> str | None:
         """Send via shell command (stdin → stdout).
@@ -163,4 +163,4 @@ class GenericAdapter(Adapter):
             return result.stdout.strip() or None
         except Exception as e:
             logger.error("Command adapter failed: %s", e)
-            return None
+            raise

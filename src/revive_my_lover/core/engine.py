@@ -238,9 +238,16 @@ class PoissonEngine:
         # Restore last state
         if self.log:
             last = self.log[-1]
-            self.probability = last.probability
             if last.action == Action.HIT_SEND:
+                # HIT_SEND log entry is written before confirm_send() resets
+                # probability. On reload, assume the send was confirmed and
+                # reset to base — otherwise probability stays artificially high
+                # and the next tick immediately hits again.
                 self.last_send_time = last.timestamp
+                self.probability = self._base_probability()
+                self.miss_streak = 0
+            else:
+                self.probability = last.probability
 
     def get_curve(self) -> list[dict]:
         """Export the longing curve for visualization."""
