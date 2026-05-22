@@ -25,12 +25,16 @@ from .control import CombinedSignal, Signal
 from .core.config import Config
 from .core.engine import PoissonEngine
 from .core.models import Action, LogEntry, TickResult
+from .engine import CompanionEngine, get_default_config
 from .info_gain import ConversationFlow, InformationGain, SilenceDuration
 from .love import LoveResult, PoissonLove
 from .optimal_stop import OptimalStop, ThresholdRule
 
-__version__ = "0.9.0"
+__version__ = "2.0.0"
 __all__ = [
+    # High-level facade
+    "CompanionEngine",
+    "get_default_config",
     # Unified API
     "PoissonLove",
     "LoveResult",
